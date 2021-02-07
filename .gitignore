@@ -84,6 +84,8 @@ lint/outputs/
 lint/tmp/
 # lint/reports/
 
-#virtualenv
+#virtualenv 
 venv/
+
+#templates used to test site
 templates/
