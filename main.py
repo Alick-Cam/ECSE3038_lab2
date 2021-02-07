@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, jsonify, redirect, url_for
-from flask_cors import CORS
+from flask_cors import CORS #for testing 
 
 #adding time stuff
 from pytz import datetime
@@ -7,7 +7,7 @@ import pytz
 
 
 app = Flask(__name__)
-CORS(app)
+CORS(app) #for testing
 
 #global dictionary to store information about a single user 
 userData = {}
@@ -35,7 +35,7 @@ def profile_post():
     userD = request.json
     #do the validation 
     if len(userD) > 0:
-        #credentials are correct so update global dictionary to shpw that Alick has logged in
+        #update global dictionary to show that a user has logged in
         global userData
         userData = userD
         #append time stamp to local dictionary and prepare for return
@@ -57,9 +57,9 @@ def profile_patch():
     #obtain json object from the request object in a local dictionary
     userD = request.json   
     #user can only patch if the profile has already been created
-    #Therefore, check if global dictionary has correct credentials in it
+    #Therefore, check if global dictionary has an element
     if len(userData) > 0:
-        #credentials are correct so patch global dictionary
+        #patch global dictionary
         userData = userD
         #append time stamp to local dictionary and prepare for return
         userD["last_updated"] = tVartoString
@@ -102,7 +102,7 @@ def data_patch(id):
     if found == False:
         #show user everything in the list if user tries to update a nonexistent record
         return redirect(url_for("data_get"))
-    return jsonify(BUFFER[id-1]) #data in the list is indexed as its id - 1
+    return jsonify(BUFFER[id-1]) #data in the list is indexed as its (id - 1)
 
 @app.route('/data/<int:id>', methods = ["DELETE"])
 def data_delete(id):

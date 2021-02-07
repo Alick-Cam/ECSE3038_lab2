@@ -89,3 +89,6 @@ venv/
 
 #templates used to test site
 templates/
+
+#vscode files 
+.vscode/
