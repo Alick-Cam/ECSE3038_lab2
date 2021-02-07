@@ -1,9 +1,13 @@
 from flask import Flask, render_template, request, jsonify, redirect, url_for
+from flask_cors import CORS
+
 #adding time stuff
 from pytz import datetime
 import pytz
 
+
 app = Flask(__name__)
+CORS(app)
 
 #global dictionary to store information about a single user 
 userData = {}
@@ -15,7 +19,12 @@ BUFFER = []
 #Profile  Routes 
 @app.route('/profile')
 def profile_get():
-    return render_template("login.html")
+    global userData
+    successDict = {
+        "success" :True,
+        "data" : userData
+    }
+    return jsonify(successDict)
 
 @app.route('/profile', methods = ['POST'])
 def profile_post():
@@ -25,7 +34,7 @@ def profile_post():
     #obtain json object from the request object
     userD = request.json
     #do the validation 
-    if userD["username"] == "Alick" and userD["role"] == "Engineer" and userD["color"] == "#3478ff":
+    if len(userD) > 0:
         #credentials are correct so update global dictionary to shpw that Alick has logged in
         global userData
         userData = userD
@@ -49,7 +58,7 @@ def profile_patch():
     userD = request.json   
     #user can only patch if the profile has already been created
     #Therefore, check if global dictionary has correct credentials in it
-    if userData["username"] == "Alick" and userData["role"] == "Engineer" and userData["color"] == "#3478ff":
+    if len(userData) > 0:
         #credentials are correct so patch global dictionary
         userData = userD
         #append time stamp to local dictionary and prepare for return
@@ -103,4 +112,4 @@ def data_delete(id):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port = 3000)
